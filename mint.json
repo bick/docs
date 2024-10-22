@@ -15,6 +15,10 @@
       "to": "#07C983"
     }
   },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  },
   "topbarLinks": [
     {
       "name": "Support",
@@ -22,8 +26,8 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "DiscountDrugNetwork.com",
+    "url": "https://disountdrugnetwork.com"
   },
   "tabs": [
     {
@@ -38,11 +42,6 @@
       "url": "https://mintlify.com/docs"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
       "name": "Blog",
       "icon": "newspaper",
       "url": "https://mintlify.com/blog"
@@ -52,9 +51,8 @@
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
         "quickstart",
-        "development"
+        "key-features"
       ]
     },
     {
