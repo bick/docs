@@ -2,14 +2,14 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Starter Kit",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/ddn-logo.png",
+    "light": "/logo/ddn-logo.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#005DAA",
+    "light": "#E5EFF7",
+    "dark": "#005DAA",
     "anchors": {
       "from": "#0D9373",
       "to": "#07C983"
@@ -22,31 +22,13 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:engineering@discountdrugnetwork.com"
     }
   ],
   "topbarCtaButton": {
     "name": "DiscountDrugNetwork.com",
     "url": "https://disountdrugnetwork.com"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
   "navigation": [
     {
       "group": "Get Started",
@@ -56,28 +38,19 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Authentication",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "api-reference/auth/login",
+        "api-reference/auth/refresh"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Search",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/search/find-drugs",
+        "api-reference/search/discount-info",
+        "api-reference/search/autocomplete",
+        "api-reference/search/drug-form-strength"
       ]
     }
   ],

@@ -1,0 +1,32 @@
+---
+title: 'Login'
+openapi: 'POST /auth/login'
+---
+# Retrieve Access Token
+
+Use this endpoint to retrieve the access token needed to access the DDN API.
+
+## Query Parameters
+
+`groupID`
+- **string**
+**Required**
+Your group ID number.
+
+## Response
+
+`accessToken`
+- **string**
+The JWT authentication token to pass in the `Authorization` header as a Bearer token in subsequent requests.
+
+`refreshToken`
+- **string**
+The token to refresh authentication.
+
+`expiresIn`
+- **int**
+The number of seconds before the token will expire for the external user.
+
+`tokenType`
+- **string**
+Identifies the required Authorization header type to use, typically `Bearer`.
