@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Discount Drug Network",
   "logo": {
     "dark": "/logo/ddn-logo.png",
     "light": "/logo/ddn-logo.png"
@@ -11,14 +11,36 @@
     "light": "#E5EFF7",
     "dark": "#005DAA",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#005DAA",
+      "to": "#005DAA"
     }
   },
   "modeToggle": {
     "default": "light",
     "isHidden": true
   },
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "terminal",
+      "url": "api-reference"
+    },
+    {
+      "name": "iFrame",
+      "icon": "window",
+      "url": "iframe"
+    },
+    {
+      "name": "Report Issues",
+      "icon": "bug",
+      "url": "https://ddn.canny.io/feature-requests"
+    },
+    {
+      "name": "Roadmap",
+      "icon": "map",
+      "url": "https://ddn.canny.io/roadmap"
+    }
+  ],
   "topbarLinks": [
     {
       "name": "Support",
@@ -33,8 +55,7 @@
     {
       "group": "Get Started",
       "pages": [
-        "quickstart",
-        "key-features"
+        "api-reference/introduction"
       ]
     },
     {
@@ -51,6 +72,12 @@
         "api-reference/search/discount-info",
         "api-reference/search/autocomplete",
         "api-reference/search/drug-form-strength"
+      ]
+    },
+    {
+      "group": "Using the iFrame",
+      "pages": [
+        "iframe/getting-started"
       ]
     }
   ],
