@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": "Discount Drug Network API",
+    "description": "API for retrieving drug pricing, pharmacy information, and other related data with authentication and rate limiting.",
     "license": {
       "name": "MIT"
     },
@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.discountdrugnetwork.com"
     }
   ],
   "security": [
@@ -19,110 +19,128 @@
     }
   ],
   "paths": {
-    "/plants": {
+    "/auth/login": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "description": "Retrieve an access token to authenticate API requests.",
         "parameters": [
           {
-            "name": "limit",
+            "name": "groupId",
             "in": "query",
-            "description": "The maximum number of results to return",
+            "description": "Your group ID number",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "Authentication tokens and expiry information",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Unexpected error",
+            "description": "Invalid group ID or authentication error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "$ref": "#/components/schemas/Error"
               }
             }
           }
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/Drug/Autocomplete": {
+      "get": {
+        "description": "Retrieve drug name suggestions for autocomplete.",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
+            "name": "groupId",
+            "in": "query",
+            "description": "Group Identifier",
             "required": true,
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prefixText",
+            "in": "query",
+            "description": "Drug search text (minimum 3 characters recommended)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Optional number of drug names to return (max 20)",
+            "schema": {
               "type": "integer",
-              "format": "int64"
+              "format": "int32",
+              "maximum": 20
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Array of suggested drug names",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DrugName"
+                  }
                 }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drug/DiscountInfo": {
+      "get": {
+        "description": "Retrieve discount information for a specific group.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "description": "Group ID for which discount information is required",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discount information for the specified group",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/DiscountInfo"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid group ID or request error",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/Error"
               }
             }
           }
@@ -132,55 +150,68 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "AuthResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
+          "accessToken": {
+            "type": "string",
+            "description": "JWT token for authentication"
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
+          "refreshToken": {
+            "type": "string",
+            "description": "Token to refresh authentication"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "description": "Token expiration time in seconds"
+          },
+          "tokenType": {
+            "type": "string",
+            "description": "Authorization header type, usually 'Bearer'"
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
+      "DrugName": {
+        "type": "object",
+        "properties": {
+          "drugName": {
+            "type": "string",
+            "description": "Suggested drug name"
           }
-        ]
+        }
+      },
+      "DiscountInfo": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "description": "Reference to the requested group ID"
+          },
+          "cardholderID": {
+            "type": "string",
+            "description": "New cardholder identifier"
+          },
+          "rxBIN": {
+            "type": "string",
+            "description": "BIN assigned to the group ID"
+          },
+          "rxPCN": {
+            "type": "string",
+            "description": "PCN assigned to the group ID"
+          }
+        }
       },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
         "type": "object",
         "properties": {
           "error": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "Error code"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Error message describing the issue"
           }
         }
       }

@@ -33,12 +33,12 @@
     {
       "name": "Report Issues",
       "icon": "bug",
-      "url": "https://ddn.canny.io/feature-requests"
+      "url": "mailto:support@discountdrugnetwork.com"
     },
     {
       "name": "Roadmap",
       "icon": "map",
-      "url": "https://ddn.canny.io/roadmap"
+      "url": "https://ddn.canny.io"
     }
   ],
   "topbarLinks": [
