@@ -61,7 +61,9 @@
     {
       "group": "Get Started",
       "pages": [
-        "api-reference/introduction"
+        "api-reference/introduction",
+        "api-reference/authentication",
+        "api-reference/rate-limits"
       ]
     },
     {
