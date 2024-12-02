@@ -1,142 +1,109 @@
 ---
 title: 'Find Drugs'
-description: 'The DrugFormStrength method provides information on LocatedDrugNames, LocatedDrugForms, LocatedDrugStrengths, and LocatedDrugQuantities for a specific drug identified by GSN (FormStrengthQuantity combination identifier).'
-openapi: 'GET /FindDrugs'
+description: 'Retrieve drug information using specific filters such as drug name, GSN, and pharmacy location.'
+openapi: 'GET /api/Drug/FindDrugs'
 ---
-## Endpoint
+
+## **Endpoint**
 
 ```http
-GET https://api.discountdrugnetwork.com/api/Drug/DrugFormStrength?GSN=NUMBER
+GET https://api.discountdrugnetwork.com/api/Drug/FindDrugs
 ```
 
-## Input Parameters
+---
 
-<ResponseField name="GSN" type="string" required>
-    GCN Sequence Number (Required).
-</ResponseField>
+## **Usage**
 
-<ResponseField name="groupId" type="string" required>
-    Group Identifier (Required).
+This endpoint retrieves information about drugs and associated pharmacy details. Use this API to locate drugs by name, GSN, or other identifiers and get information such as drug forms, strengths, quantities, and pricing.
 
-    Example: `12345`
-</ResponseField>
+---
 
-## Returned Parameters and Values
+## **Input Parameters**
 
-<ResponseField name="drugName" type="string" required>
-    Drug name.
-</ResponseField>
+### **Query Parameters**
 
-<ResponseField name="brandGeneric" type="string" required>
-    "B" for Brand, "G" for Generic, "A" for Brand or Generic.
-</ResponseField>
+| **Parameter**        | **Type**   | **Description**                                                                                         | **Required** |
+|-----------------------|-----------|---------------------------------------------------------------------------------------------------------|--------------|
+| `groupID`            | `string`  | Group Identifier for authentication.                                                                    | Yes          |
+| `Address1`           | `string`  | Address for the search location.                                                                        | No           |
+| `BrandIndicator`     | `string`  | Brand or generic indicator.                                                                             | No           |
+| `City`               | `string`  | City of the search location.                                                                            | No           |
+| `DrugName`           | `string`  | Name of the drug to search.                                                                             | No           |
+| `GSN`                | `string`  | GCN Sequence Number to filter drugs.                                                                    | No           |
+| `NDC`                | `string`  | National Drug Code of the drug.                                                                         | No           |
+| `IncludeDrugInfo`    | `boolean` | Whether to include detailed drug info in the response.                                                  | No           |
+| `Lat`                | `double`  | Latitude of the search location.                                                                        | No           |
+| `Long`               | `double`  | Longitude of the search location.                                                                       | No           |
+| `NCPDP_NPI`          | `string`  | Pharmacy identifier.                                                                                    | No           |
+| `NumPharm`           | `int`     | Number of pharmacies to return.                                                                         | No           |
+| `PriceOnly`          | `boolean` | If true, returns only price information. Excludes quantities, forms, strengths, or drug info.           | No           |
+| `Qty`                | `double`  | Quantity of the drug.                                                                                   | No           |
+| `ReferencedBN`       | `string`  | Referenced brand name.                                                                                  | No           |
+| `State`              | `string`  | State of the search location.                                                                           | No           |
+| `UC`                 | `double`  | Usual and Customary value.                                                                              | No           |
+| `UseUC`              | `boolean` | Whether to use the Usual and Customary value in pricing calculations.                                   | No           |
+| `Zip`                | `string`  | Zip code of the search location.                                                                        | No           |
 
-<ResponseField name="Forms" type="array[]">
-    Array of LocatedDrugForm matching the GSN from the request.
-</ResponseField>
+---
 
-<ResponseField name="Strengths" type="array[]">
-    Array of LocatedDrugStrength matching the GSN from the request.
-</ResponseField>
+## **FindDrugs Response**
 
-<ResponseField name="Quantities" type="array">
-    Array of LocatedDrugQuantity matching the GSN from the request.
-</ResponseField>
+### **Returned Parameters**
 
-### LocatedDrugForm
+| **Parameter**           | **Type**   | **Description**                                                                                       |
+|--------------------------|-----------|-------------------------------------------------------------------------------------------------------|
+| `Drugs`                 | `array`   | Array of LocatedDrugs matching the FindDrugs request.                                                 |
+| `Forms`                 | `array`   | Array of LocatedDrugForms matching the FindDrugs request.                                             |
+| `Names`                 | `array`   | Array of LocatedDrugNames matching the FindDrugs request.                                             |
+| `Quantities`            | `array`   | Array of LocatedDrugQuantities matching the FindDrugs request.                                        |
+| `Strengths`             | `array`   | Array of LocatedDrugStrengths matching the FindDrugs request.                                         |
 
-<ResponseField name="Form" type="string">
-    Drug form (e.g., "Tablet").
-</ResponseField>
+---
 
-<ResponseField name="GSN" type="string">
-    GCN Sequence Number.
-</ResponseField>
+## **Output Details**
 
-<ResponseField name="Ranking" type="int">
-    Ranking of the most commonly used drug form.
-</ResponseField>
+### **Pharmacy Information**
 
-<ResponseField name="isDiscontinued" type="boolean">
-    Indicates if the drug form is discontinued.
-</ResponseField>
+| **Parameter**            | **Description**                                                                                               |
+|---------------------------|-------------------------------------------------------------------------------------------------------------|
+| `chainCode`              | Unique code for pharmacy chains.                                                                             |
+| `pharmacyName`           | Name of the pharmacy.                                                                                        |
+| `latitude`               | Latitude of the pharmacy location. Supports map integration.                                                 |
+| `longitude`              | Longitude of the pharmacy location. Supports map integration.                                                |
+| `address`                | Address of the pharmacy location.                                                                            |
+| `phone`                  | Contact phone number of the pharmacy.                                                                        |
+| `distance`               | Distance from the provided location to the pharmacy.                                                        |
+| `city`                   | City of the pharmacy location.                                                                               |
+| `state`                  | State abbreviation of the pharmacy location.                                                                |
+| `zip`                    | 9-digit zip code of the pharmacy.                                                                            |
+| `hoursOfOperation`       | Publicly posted operating hours of the pharmacy.                                                            |
 
-<ResponseField name="LN" type="string">
-    Drug label name.
-</ResponseField>
+### **Drug Information**
 
-<ResponseField name="commonQty" type="double">
-    Most common quantity dispensed.
-</ResponseField>
+| **Parameter**            | **Description**                                                                                               |
+|---------------------------|-------------------------------------------------------------------------------------------------------------|
+| `ndc`                    | National Drug Code (NDC).                                                                                   |
+| `ln`                     | Label name of the drug.                                                                                     |
+| `qty`                    | Prescription quantity.                                                                                      |
+| `price`                  | Discounted price.                                                                                           |
+| `priceBasis`             | Basis for price determination (e.g., AWP, Usual and Customary, or MAC).                                      |
+| `ucPrice`                | Usual and Customary price for the drug.                                                                      |
+| `awpPrice`               | Average Wholesale Price of the drug.                                                                        |
+| `macPrice`               | Maximum Allowable Cost for the drug.                                                                        |
+| `brandGeneric`           | "B" for Brand, "G" for Generic, "A" for Brand or Generic.                                                   |
+| `quantityLabel`          | Type of medication (e.g., capsules, tablets).                                                               |
+| `isDiscontinued`         | Indicates whether the medication is discontinued.                                                           |
+| `discontinuedDate`       | Date the medication was discontinued.                                                                       |
+| `genericName`            | Generic name of the medication.                                                                             |
+| `brandName`              | Brand name of the medication.                                                                               |
+| `description`            | Description of the medication.                                                                              |
 
-<ResponseField name="discontinuedDate" type="DateTime">
-    Date when the drug form was discontinued.
-</ResponseField>
+---
 
-<ResponseField name="IsSelected" type="boolean">
-    Indicates if this value is the current filter for returned datasets.
-</ResponseField>
+### **Drug Pricing**
 
-### LocatedDrugName
+| **Parameter**            | **Description**                                                                                               |
+|---------------------------|-------------------------------------------------------------------------------------------------------------|
+| `ddnPharmacyCategory`    | Category of the pharmacy chain: 1 = National chains, 2 = Grocery store chains, 0 = Independent pharmacies.    |
 
-<ResponseField name="DrugName" type="string">
-    Drug name.
-</ResponseField>
-
-<ResponseField name="BrandGeneric" type="string">
-    "B" for Brand, "G" for Generic, "A" for Brand or Generic.
-</ResponseField>
-
-<ResponseField name="IsSelected" type="boolean">
-    Indicates if this value is the current filter for returned datasets.
-</ResponseField>
-
-### LocatedDrugQuantity
-
-<ResponseField name="Quantity" type="double">
-    Drug quantity.
-</ResponseField>
-
-<ResponseField name="QuantityLabel" type="string">
-    Label for quantity (e.g., mL, units, grams).
-</ResponseField>
-
-<ResponseField name="GSN" type="string">
-    GCN Sequence Number.
-</ResponseField>
-
-<ResponseField name="Ranking" type="int">
-    Ranking of the most commonly used quantity.
-</ResponseField>
-
-<ResponseField name="IsSelected" type="boolean">
-    Indicates if this value is the current filter for returned datasets.
-</ResponseField>
-
-### LocatedDrugStrength
-
-<ResponseField name="Strength" type="string">
-    Drug strength.
-</ResponseField>
-
-<ResponseField name="GSN" type="string">
-    GCN Sequence Number.
-</ResponseField>
-
-<ResponseField name="Ranking" type="int">
-    Ranking of the most commonly used strength.
-</ResponseField>
-
-<ResponseField name="LN" type="string">
-    Drug label name.
-</ResponseField>
-
-<ResponseField name="CommonQty" type="double">
-    Most common quantity dispensed.
-</ResponseField>
-
-<ResponseField name="IsSelected" type="boolean">
-    Indicates if this value is the current filter for returned datasets.
-</ResponseField>
-
-> **Note:** The GSN (GCN Sequence Number) groups together drugs based on ingredients, strength, and dosage form.
+---

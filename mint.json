@@ -5,6 +5,12 @@
     "dark": "/logo/ddn-logo.png",
     "light": "/logo/ddn-logo.png"
   },
+  "api": {
+    "auth": {
+      "method": "key",
+      "name": "api-key"
+    }
+  },
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#005DAA",
