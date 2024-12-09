@@ -12,7 +12,7 @@ description: 'The DDN API has a default rate limit to prevent abuse and ensure q
 | `ratelimit-reset`     | Seconds until the rate limit resets.                         |
 | `retry-after`         | Suggested wait time (in seconds) before making a follow-up request. |
 
-The default rate limit allows up to 2 requests per second. For trusted users, this limit can be increased upon request.
+The default rate limit allows up to 100 requests per second. For trusted users, this limit can be increased upon request.
 
 > **Note:** If you exceed the rate limit, you will receive a `429` response code. We recommend implementing a queue mechanism or reducing concurrent requests per second to avoid this. Contact support if you need a higher rate limit for specific use cases.
 

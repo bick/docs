@@ -8,7 +8,7 @@
   "api": {
     "auth": {
       "method": "key",
-      "name": "api-key"
+      "name": "x-ddn-client-key"
     }
   },
   "favicon": "/favicon.svg",
