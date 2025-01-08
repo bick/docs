@@ -133,7 +133,7 @@
         }
       }
     },
-    "/api/Drug/FindDrugs": {
+    "/gateway/Drug/FindDrugs": {
       "get": {
         "summary": "Find Drugs",
         "description": "Retrieve drug information, forms, strengths, quantities, and pricing using various filters.",
